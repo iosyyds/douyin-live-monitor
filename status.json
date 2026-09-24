@@ -1,13 +1,14 @@
 {
   "isRunning": true,
-  "elapsedMinutes": 1,
+  "elapsedMinutes": 3,
   "currentSession": "手动测试场",
-  "lastUpdate": "2026-09-25 00:50:00",
-  "totalFukubukuro": 1,
+  "lastUpdate": "2026-09-25 00:53:00",
+  "totalFukubukuro": 2,
   "wonFukubukuro": 0,
   "todayRuns": 1,
   "totalMinutes": 0,
   "history": [
+    {"action": "🧧 参与福袋成功", "time": "2026-09-25 00:53"},
     {"action": "✅ 手动测试场开始挂机", "time": "2026-09-25 00:50"},
     {"action": "监控面板升级完成", "time": "2026-09-25 00:00"}
   ]
