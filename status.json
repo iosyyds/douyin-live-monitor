@@ -1,16 +1,17 @@
 {
   "isRunning": true,
-  "elapsedMinutes": 0,
+  "elapsedMinutes": 5,
   "currentSession": "凌晨场00:00",
-  "lastUpdate": "2026-09-26 00:00:00",
+  "lastUpdate": "2026-09-26 00:05:00",
+  "loginStatus": "online",
   "totalFukubukuro": 3,
   "wonFukubukuro": 0,
   "todayRuns": 3,
   "totalMinutes": 40,
   "history": [
+    {"action": "✅ 抖音登录状态正常", "time": "2026-09-26 00:05"},
     {"action": "✅ 凌晨场00:00自动开始挂机", "time": "2026-09-26 00:00"},
     {"action": "🏁 凌晨场挂机结束（20分钟）", "time": "2026-09-25 00:22"},
-    {"action": "🧧 参与999钻红包", "time": "2026-09-25 00:18"},
-    {"action": "✅ 凌晨场00:00开始挂机", "time": "2026-09-25 00:03"}
+    {"action": "🧧 参与999钻红包", "time": "2026-09-25 00:18"}
   ]
 }
