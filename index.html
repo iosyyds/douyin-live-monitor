@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>抖音挂机监控 - 陈伯直播间</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f0f1a; color: #fff; min-height: 100vh; padding: 20px; }
+.container { max-width: 600px; margin: 0 auto; }
+.header { text-align: center; margin-bottom: 30px; }
+.header h1 { font-size: 24px; margin-bottom: 8px; }
+.header .sub { color: #888; font-size: 14px; }
+.status-card { background: #1a1a2e; border-radius: 16px; padding: 24px; margin-bottom: 16px; border: 1px solid #2a2a4a; }
+.status-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #2a2a4a; }
+.status-row:last-child { border-bottom: none; }
+.status-label { color: #888; font-size: 14px; }
+.status-value { font-size: 16px; font-weight: 600; }
+.live { color: #ff4757; }
+.offline { color: #666; }
+.badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+.badge-live { background: #ff475720; color: #ff4757; }
+.badge-idle { background: #66620; color: #888; }
+.badge-success { background: #2ed57320; color: #2ed573; }
+.progress-bar { width: 100%; height: 8px; background: #2a2a4a; border-radius: 4px; margin-top: 8px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, #ff4757, #ff6b81); border-radius: 4px; transition: width 1s; }
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+.stat-box { background: #1a1a2e; border-radius: 12px; padding: 16px; text-align: center; border: 1px solid #2a2a4a; }
+.stat-num { font-size: 28px; font-weight: 700; color: #ff6b81; }
+.stat-label { font-size: 12px; color: #888; margin-top: 4px; }
+.history { margin-top: 16px; }
+.history-item { padding: 10px 0; border-bottom: 1px solid #2a2a4a; font-size: 13px; display: flex; justify-content: space-between; }
+.history-item:last-child { border-bottom: none; }
+.time { color: #666; }
+.refresh-info { text-align: center; color: #555; font-size: 12px; margin-top: 20px; }
+.dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; animation: pulse 2s infinite; }
+.dot-on { background: #2ed573; }
+.dot-off { background: #666; }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>陈伯(全能王) 直播间挂机</h1>
+    <div class="sub">抖音号: keyis153</div>
+  </div>
+
+  <div class="status-card">
+    <div class="status-row">
+      <span class="status-label">当前状态</span>
+      <span id="status-badge" class="badge badge-idle">等待中</span>
+    </div>
+    <div class="status-row">
+      <span class="status-label">挂机进度</span>
+      <span class="status-value" id="progress-text">--/20分钟</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progress-bar" style="width:0%"></div></div>
+    <div class="status-row">
+      <span class="status-label">当前场次</span>
+      <span class="status-value" id="current-session">--</span>
+    </div>
+    <div class="status-row">
+      <span class="status-label">最后更新</span>
+      <span class="status-value" id="last-update">--</span>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-box">
+      <div class="stat-num" id="total-fukubukuro">0</div>
+      <div class="stat-label">福袋参与次数</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num" id="won-fukubukuro">0</div>
+      <div class="stat-label">福袋中奖次数</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num" id="today-runs">0</div>
+      <div class="stat-label">今日执行次数</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num" id="total-minutes">0</div>
+      <div class="stat-label">累计挂机(分钟)</div>
+    </div>
+  </div>
+
+  <div class="status-card history">
+    <div class="status-label" style="margin-bottom:8px">最近执行记录</div>
+    <div id="history-list">
+      <div class="history-item"><span>暂无记录</span><span class="time">--</span></div>
+    </div>
+  </div>
+
+  <div class="refresh-info">
+    <span class="dot dot-off" id="dot"></span>每30秒自动刷新
+  </div>
+</div>
+
+<script>
+async function loadStatus() {
+  try {
+    const res = await fetch('status.json?t=' + Date.now());
+    const data = await res.json();
+    
+    // 状态
+    const badge = document.getElementById('status-badge');
+    if (data.isRunning) {
+      badge.className = 'badge badge-live';
+      badge.textContent = '挂机中';
+      document.getElementById('dot').className = 'dot dot-on';
+    } else {
+      badge.className = 'badge badge-idle';
+      badge.textContent = '空闲';
+      document.getElementById('dot').className = 'dot dot-off';
+    }
+    
+    // 进度
+    const pct = Math.min(100, (data.elapsedMinutes / 20) * 100);
+    document.getElementById('progress-bar').style.width = pct + '%';
+    document.getElementById('progress-text').textContent = (data.elapsedMinutes || 0) + '/20分钟';
+    document.getElementById('current-session').textContent = data.currentSession || '--';
+    document.getElementById('last-update').textContent = data.lastUpdate || '--';
+    
+    // 统计
+    document.getElementById('total-fukubukuro').textContent = data.totalFukubukuro || 0;
+    document.getElementById('won-fukubukuro').textContent = data.wonFukubukuro || 0;
+    document.getElementById('today-runs').textContent = data.todayRuns || 0;
+    document.getElementById('total-minutes').textContent = data.totalMinutes || 0;
+    
+    // 历史
+    const hist = document.getElementById('history-list');
+    if (data.history && data.history.length > 0) {
+      hist.innerHTML = data.history.map(h => 
+        '<div class="history-item"><span>' + h.action + '</span><span class="time">' + h.time + '</span></div>'
+      ).join('');
+    }
+  } catch(e) {
+    console.error('加载失败', e);
+  }
+}
+
+loadStatus();
+setInterval(loadStatus, 30000);
+</script>
+</body>
+</html>
