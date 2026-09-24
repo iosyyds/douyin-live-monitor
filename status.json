@@ -1,15 +1,15 @@
 {
-  "isRunning": true,
-  "elapsedMinutes": 15,
-  "currentSession": "凌晨场00:00",
-  "lastUpdate": "2026-09-25 00:18:00",
+  "isRunning": false,
+  "elapsedMinutes": 0,
+  "currentSession": "",
+  "lastUpdate": "2026-09-25 00:22:00",
   "totalFukubukuro": 3,
   "wonFukubukuro": 0,
-  "todayRuns": 1,
-  "totalMinutes": 20,
+  "todayRuns": 2,
+  "totalMinutes": 40,
   "history": [
+    {"action": "🏁 凌晨场挂机结束（20分钟）", "time": "2026-09-25 00:22"},
     {"action": "🧧 参与999钻红包", "time": "2026-09-25 00:18"},
-    {"action": "⏳ 挂机中，已挂15分钟", "time": "2026-09-25 00:15"},
     {"action": "✅ 凌晨场00:00开始挂机", "time": "2026-09-25 00:03"},
     {"action": "🏁 手动测试场挂机结束（20分钟）", "time": "2026-09-25 00:55"}
   ]
