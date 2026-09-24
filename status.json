@@ -1,13 +1,14 @@
 {
-  "isRunning": false,
-  "elapsedMinutes": 0,
-  "currentSession": "",
-  "lastUpdate": "2026-09-25 00:00:00",
+  "isRunning": true,
+  "elapsedMinutes": 1,
+  "currentSession": "手动测试场",
+  "lastUpdate": "2026-09-25 00:50:00",
   "totalFukubukuro": 1,
   "wonFukubukuro": 0,
-  "todayRuns": 0,
+  "todayRuns": 1,
   "totalMinutes": 0,
   "history": [
+    {"action": "✅ 手动测试场开始挂机", "time": "2026-09-25 00:50"},
     {"action": "监控面板升级完成", "time": "2026-09-25 00:00"}
   ]
 }
