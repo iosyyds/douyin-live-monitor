@@ -1,16 +1,16 @@
 {
   "isRunning": true,
-  "elapsedMinutes": 1,
+  "elapsedMinutes": 10,
   "currentSession": "凌晨场00:00",
-  "lastUpdate": "2026-09-25 00:03:00",
+  "lastUpdate": "2026-09-25 00:13:00",
   "totalFukubukuro": 2,
   "wonFukubukuro": 0,
   "todayRuns": 1,
   "totalMinutes": 20,
   "history": [
+    {"action": "⏳ 挂机中，已挂10分钟", "time": "2026-09-25 00:13"},
     {"action": "✅ 凌晨场00:00开始挂机", "time": "2026-09-25 00:03"},
     {"action": "🏁 手动测试场挂机结束（20分钟）", "time": "2026-09-25 00:55"},
-    {"action": "🧧 参与福袋成功", "time": "2026-09-25 00:53"},
-    {"action": "✅ 手动测试场开始挂机", "time": "2026-09-25 00:50"}
+    {"action": "🧧 参与福袋成功", "time": "2026-09-25 00:53"}
   ]
 }
