@@ -6,94 +6,198 @@
 <title>抖音挂机监控 - 陈伯直播间</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f0f1a; color: #fff; min-height: 100vh; padding: 20px; }
-.container { max-width: 600px; margin: 0 auto; }
-.header { text-align: center; margin-bottom: 30px; }
-.header h1 { font-size: 24px; margin-bottom: 8px; }
-.header .sub { color: #888; font-size: 14px; }
-.status-card { background: #1a1a2e; border-radius: 16px; padding: 24px; margin-bottom: 16px; border: 1px solid #2a2a4a; }
-.status-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #2a2a4a; }
-.status-row:last-child { border-bottom: none; }
-.status-label { color: #888; font-size: 14px; }
-.status-value { font-size: 16px; font-weight: 600; }
-.live { color: #ff4757; }
-.offline { color: #666; }
-.badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
-.badge-live { background: #ff475720; color: #ff4757; }
-.badge-idle { background: #66620; color: #888; }
-.badge-success { background: #2ed57320; color: #2ed573; }
-.progress-bar { width: 100%; height: 8px; background: #2a2a4a; border-radius: 4px; margin-top: 8px; overflow: hidden; }
-.progress-fill { height: 100%; background: linear-gradient(90deg, #ff4757, #ff6b81); border-radius: 4px; transition: width 1s; }
-.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
-.stat-box { background: #1a1a2e; border-radius: 12px; padding: 16px; text-align: center; border: 1px solid #2a2a4a; }
-.stat-num { font-size: 28px; font-weight: 700; color: #ff6b81; }
-.stat-label { font-size: 12px; color: #888; margin-top: 4px; }
-.history { margin-top: 16px; }
-.history-item { padding: 10px 0; border-bottom: 1px solid #2a2a4a; font-size: 13px; display: flex; justify-content: space-between; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif;
+  background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 50%, #e0f2f1 100%);
+  min-height: 100vh;
+  color: #1a1a2e;
+  padding: 20px;
+}
+.container { max-width: 1000px; margin: 0 auto; }
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0 24px;
+}
+.header-left { display: flex; align-items: center; gap: 12px; }
+.logo {
+  width: 40px; height: 40px;
+  background: linear-gradient(135deg, #43a047, #66bb6a);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+}
+.header h1 { font-size: 20px; font-weight: 700; }
+.header .sub { font-size: 12px; color: #666; margin-top: 2px; }
+
+.stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 16px; }
+.stat-card {
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  transition: transform 0.2s;
+}
+.stat-card:hover { transform: translateY(-2px); }
+.stat-label { font-size: 13px; color: #888; margin-bottom: 8px; }
+.stat-value { font-size: 28px; font-weight: 700; }
+
+.status-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  display: inline-block; margin-right: 6px;
+}
+.dot-on { background: #4caf50; box-shadow: 0 0 10px #4caf50; animation: pulse 1.5s infinite; }
+.dot-off { background: #bbb; }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+.main-card {
+  background: rgba(255,255,255,0.9);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  margin-bottom: 16px;
+}
+
+.session-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 20px;
+}
+.session-title { font-size: 16px; font-weight: 600; }
+.session-badge {
+  padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 600;
+}
+.badge-live { background: #e8f5e9; color: #2e7d32; }
+.badge-idle { background: #f5f5f5; color: #999; }
+
+.progress-section { margin: 16px 0; }
+.progress-info { display: flex; justify-content: space-between; font-size: 13px; color: #666; margin-bottom: 8px; }
+.progress-bar {
+  width: 100%; height: 10px; background: #f0f0f0; border-radius: 5px; overflow: hidden;
+}
+.progress-fill {
+  height: 100%; background: linear-gradient(90deg, #43a047, #66bb6a, #81c784);
+  border-radius: 5px; transition: width 1s ease;
+}
+
+.info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+.info-item { padding: 12px 0; border-bottom: 1px solid #f0f0f0; }
+.info-label { font-size: 12px; color: #999; margin-bottom: 4px; }
+.info-value { font-size: 15px; font-weight: 600; }
+
+.fukubukuro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+.fuku-card {
+  background: rgba(255,255,255,0.85);
+  border-radius: 16px; padding: 20px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  text-align: center;
+}
+.fuku-num { font-size: 36px; font-weight: 700; }
+.fuku-num.win { color: #f57c00; }
+.fuku-num.count { color: #43a047; }
+.fuku-label { font-size: 13px; color: #888; margin-top: 4px; }
+
+.history-list { margin-top: 12px; }
+.history-item {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 0; border-bottom: 1px solid #f5f5f5;
+  font-size: 14px;
+}
 .history-item:last-child { border-bottom: none; }
-.time { color: #666; }
-.refresh-info { text-align: center; color: #555; font-size: 12px; margin-top: 20px; }
-.dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; animation: pulse 2s infinite; }
-.dot-on { background: #2ed573; }
-.dot-off { background: #666; }
-@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+.history-time { color: #999; font-size: 12px; }
+
+.footer { text-align: center; padding: 20px; color: #999; font-size: 12px; }
+.refresh-tip { display: inline-flex; align-items: center; gap: 6px; }
+
+@media (max-width: 600px) {
+  .stats-row { grid-template-columns: 1fr; }
+  .info-grid { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
 <div class="container">
   <div class="header">
-    <h1>陈伯(全能王) 直播间挂机</h1>
-    <div class="sub">抖音号: keyis153</div>
-  </div>
-
-  <div class="status-card">
-    <div class="status-row">
-      <span class="status-label">当前状态</span>
-      <span id="status-badge" class="badge badge-idle">等待中</span>
-    </div>
-    <div class="status-row">
-      <span class="status-label">挂机进度</span>
-      <span class="status-value" id="progress-text">--/20分钟</span>
-    </div>
-    <div class="progress-bar"><div class="progress-fill" id="progress-bar" style="width:0%"></div></div>
-    <div class="status-row">
-      <span class="status-label">当前场次</span>
-      <span class="status-value" id="current-session">--</span>
-    </div>
-    <div class="status-row">
-      <span class="status-label">最后更新</span>
-      <span class="status-value" id="last-update">--</span>
+    <div class="header-left">
+      <div class="logo">📺</div>
+      <div>
+        <h1>陈伯(全能王) 直播间挂机</h1>
+        <div class="sub">抖音号: keyis153 · 自动挂机监控</div>
+      </div>
     </div>
   </div>
 
-  <div class="stats-grid">
-    <div class="stat-box">
-      <div class="stat-num" id="total-fukubukuro">0</div>
-      <div class="stat-label">福袋参与次数</div>
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-label">当前状态</div>
+      <div class="stat-value">
+        <span class="status-dot dot-off" id="dot"></span>
+        <span id="status-label">等待中</span>
+      </div>
     </div>
-    <div class="stat-box">
-      <div class="stat-num" id="won-fukubukuro">0</div>
-      <div class="stat-label">福袋中奖次数</div>
+    <div class="stat-card">
+      <div class="stat-label">当前场次</div>
+      <div class="stat-value" id="session-name" style="font-size:22px">--</div>
     </div>
-    <div class="stat-box">
-      <div class="stat-num" id="today-runs">0</div>
-      <div class="stat-label">今日执行次数</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-num" id="total-minutes">0</div>
-      <div class="stat-label">累计挂机(分钟)</div>
-    </div>
-  </div>
-
-  <div class="status-card history">
-    <div class="status-label" style="margin-bottom:8px">最近执行记录</div>
-    <div id="history-list">
-      <div class="history-item"><span>暂无记录</span><span class="time">--</span></div>
+    <div class="stat-card">
+      <div class="stat-label">最后更新</div>
+      <div class="stat-value" id="last-update" style="font-size:18px">--</div>
     </div>
   </div>
 
-  <div class="refresh-info">
-    <span class="dot dot-off" id="dot"></span>每30秒自动刷新
+  <div class="main-card">
+    <div class="session-header">
+      <div class="session-title">⏱ 挂机进度</div>
+      <div class="session-badge" id="session-badge">未开始</div>
+    </div>
+    <div class="progress-section">
+      <div class="progress-info">
+        <span id="progress-text">已挂机 0 / 20 分钟</span>
+        <span id="progress-pct">0%</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progress-bar" style="width:0%"></div></div>
+    </div>
+    <div class="info-grid">
+      <div class="info-item">
+        <div class="info-label">今日执行次数</div>
+        <div class="info-value" id="today-runs">0 次</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">累计挂机时长</div>
+        <div class="info-value" id="total-minutes">0 分钟</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fukubukuro-grid">
+    <div class="fuku-card">
+      <div class="fuku-num count" id="total-fukubukuro">0</div>
+      <div class="fuku-label">🧧 福袋参与次数</div>
+    </div>
+    <div class="fuku-card">
+      <div class="fuku-num win" id="won-fukubukuro">0</div>
+      <div class="fuku-label">🎉 福袋中奖次数</div>
+    </div>
+  </div>
+
+  <div class="main-card">
+    <div class="session-title" style="margin-bottom:12px">📋 执行记录</div>
+    <div class="history-list" id="history-list">
+      <div class="history-item">
+        <span>暂无记录</span>
+        <span class="history-time">--</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span class="refresh-tip">
+      <span class="status-dot dot-on" style="width:6px;height:6px"></span>
+      每10秒自动刷新 · 抖音直播间自动挂机系统
+    </span>
   </div>
 </div>
 
@@ -102,46 +206,43 @@ async function loadStatus() {
   try {
     const res = await fetch('status.json?t=' + Date.now());
     const data = await res.json();
-    
-    // 状态
-    const badge = document.getElementById('status-badge');
+    const dot = document.getElementById('dot');
+    const statusLabel = document.getElementById('status-label');
+    const badge = document.getElementById('session-badge');
     if (data.isRunning) {
-      badge.className = 'badge badge-live';
-      badge.textContent = '挂机中';
-      document.getElementById('dot').className = 'dot dot-on';
+      dot.className = 'status-dot dot-on';
+      statusLabel.textContent = '挂机中';
+      badge.className = 'session-badge badge-live';
+      badge.textContent = '● 挂机中';
     } else {
-      badge.className = 'badge badge-idle';
-      badge.textContent = '空闲';
-      document.getElementById('dot').className = 'dot dot-off';
+      dot.className = 'status-dot dot-off';
+      statusLabel.textContent = '空闲';
+      badge.className = 'session-badge badge-idle';
+      badge.textContent = '○ 未开始';
     }
-    
-    // 进度
-    const pct = Math.min(100, (data.elapsedMinutes / 20) * 100);
+    const elapsed = data.elapsedMinutes || 0;
+    const pct = Math.min(100, (elapsed / 20) * 100);
     document.getElementById('progress-bar').style.width = pct + '%';
-    document.getElementById('progress-text').textContent = (data.elapsedMinutes || 0) + '/20分钟';
-    document.getElementById('current-session').textContent = data.currentSession || '--';
+    document.getElementById('progress-text').textContent = '已挂机 ' + elapsed + ' / 20 分钟';
+    document.getElementById('progress-pct').textContent = Math.round(pct) + '%';
+    document.getElementById('session-name').textContent = data.currentSession || '--';
     document.getElementById('last-update').textContent = data.lastUpdate || '--';
-    
-    // 统计
     document.getElementById('total-fukubukuro').textContent = data.totalFukubukuro || 0;
     document.getElementById('won-fukubukuro').textContent = data.wonFukubukuro || 0;
-    document.getElementById('today-runs').textContent = data.todayRuns || 0;
-    document.getElementById('total-minutes').textContent = data.totalMinutes || 0;
-    
-    // 历史
+    document.getElementById('today-runs').textContent = (data.todayRuns || 0) + ' 次';
+    document.getElementById('total-minutes').textContent = (data.totalMinutes || 0) + ' 分钟';
     const hist = document.getElementById('history-list');
     if (data.history && data.history.length > 0) {
-      hist.innerHTML = data.history.map(h => 
-        '<div class="history-item"><span>' + h.action + '</span><span class="time">' + h.time + '</span></div>'
+      hist.innerHTML = data.history.slice(0, 10).map(h =>
+        '<div class="history-item"><span>' + h.action + '</span><span class="history-time">' + h.time + '</span></div>'
       ).join('');
     }
   } catch(e) {
     console.error('加载失败', e);
   }
 }
-
 loadStatus();
-setInterval(loadStatus, 30000);
+setInterval(loadStatus, 10000);
 </script>
 </body>
 </html>
